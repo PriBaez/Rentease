@@ -12,10 +12,12 @@ namespace SDGAV.Controllers
     public class UserController: Controller
     {
         private readonly sdgav_2Context _context;
+        private readonly AuthService _auth;
 
-        public UserController(sdgav_2Context context)
+        public UserController(sdgav_2Context context, AuthService auth)
         {
             _context = context;
+            _auth = auth;
         }
 
         [HttpGet]
@@ -44,7 +46,6 @@ namespace SDGAV.Controllers
             {
                 string hash = EncryptService.encryptPassword(md5Hash, user.Pwd);
                 user.Pwd = hash;
-                Console.WriteLine(user.Pwd);
             }
             
             _context.Add(user);
@@ -59,7 +60,6 @@ namespace SDGAV.Controllers
             {
                 string hash = EncryptService.encryptPassword(md5Hash, user.Pwd);
                 user.Pwd = hash;
-                Console.WriteLine(user.Pwd);
             }
             
             _context.Entry(user).State = EntityState.Modified;
@@ -80,6 +80,20 @@ namespace SDGAV.Controllers
             _context.Users.Remove(user);
             _context.SaveChanges();
             return Ok();
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login(UserDTO credentials)
+        {
+            var isValid = _auth.CheckCredentials(credentials);
+
+            if(isValid.Count() == 0)
+            {
+                return Unauthorized();
+            } else {
+                return Ok();
+            }
+            
         }
     }
 }

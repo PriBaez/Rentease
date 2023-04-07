@@ -9,6 +9,7 @@ import ProtectedRoutes from './components/routing/ProtectedRoutes';
 import NavBarIn from './components/navbar/NavBarIn';
 import Properties from './components/properties/Properties';
 import AddProperty from './components/properties/AddProperty';
+import PropertiesDetails from './components/properties/PropertiesDetails';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/properties">
             <Route index={true} element={<Properties/>} />
             <Route path="add" element={<AddProperty/>}/>
+            <Route path="details/:id" element={<PropertiesDetails/>}/>
           </Route>
         </Route>
     

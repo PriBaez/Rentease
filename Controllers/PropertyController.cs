@@ -41,7 +41,7 @@ namespace SDGAV.Controllers
 
             _context.Add(property);
             _context.SaveChanges();
-            return Ok();
+            return Ok(property.Id);
         }
 
         [HttpPut("{id}")]

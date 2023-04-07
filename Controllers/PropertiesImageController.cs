@@ -37,11 +37,35 @@ namespace SDGAV.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert(PropertiesImage propertiesImage)
+        [Consumes("multipart/form-data")]
+        public IActionResult Insert([FromForm] PropertiesImageDTO propertiesImage)
         {
-            _context.Add(propertiesImage);
-            _context.SaveChanges();
-            return Ok();
+            if (propertiesImage.Image.Length > 0)
+            {
+                 byte [] imgByteArray;
+                //converting the image(file) to byte array
+                using (MemoryStream mStream = new())
+                {
+                    propertiesImage.Image.CopyTo(mStream);
+                    imgByteArray = mStream.ToArray();
+
+                    
+                }
+
+                PropertiesImage img = new PropertiesImage(){
+                        PropertyId = Convert.ToInt32(propertiesImage.PropertyId),
+                        Image = imgByteArray,
+                        UploadAt = Convert.ToDateTime(propertiesImage.UploadAt)
+                    };
+
+                _context.Add(img);
+                _context.SaveChanges();
+                
+                return Ok();
+            
+            } else {
+                return BadRequest();
+            }
         }
 
         [HttpPut("{id}")]
@@ -65,6 +89,17 @@ namespace SDGAV.Controllers
             _context.PropertiesImages.Remove(propertiesImage);
             _context.SaveChanges();
             return Ok();
+        }
+
+        [HttpGet("post/{id}")]
+
+        public List<PropertiesImage> GetImagesFromOneProperty(int id) 
+        {
+            var imageDTO = new PropertiesImageDTO();
+            var rawImage = _context.PropertiesImages.Where(photo => photo.PropertyId == id);
+          
+           
+            return rawImage.ToList();
         }
     }
 }
