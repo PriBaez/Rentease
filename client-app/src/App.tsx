@@ -10,31 +10,48 @@ import NavBarIn from './components/navbar/NavBarIn';
 import Properties from './components/properties/Properties';
 import AddProperty from './components/properties/AddProperty';
 import PropertiesDetails from './components/properties/PropertiesDetails';
+import NavBarOut from './components/navbar/NavBarOut';
+import Carousel from './components/Carousel/Carousel';
 
 
 function App() {
   
   const [isAllowed, setIsAllowed] = useState<boolean>(false);
   const [usuario, setUsuario] = useState({
-    Email: '',
-    Pwd: '',
+    id: 0,
+    name: '',
+    pwd: '',
+    email: '',
+    phone: '',
+    createdAt: new Date(),
+    role: 0
   });
-  
+  const usuarioInfo = {
+    id: usuario.id,
+    name: usuario.name,
+    email: usuario.email,
+    phone: usuario.phone
+  }
+
   return (
     <BrowserRouter>
-      <NavBarIn usuario={usuario.Email} setUsuario={setUsuario} isAllowed={isAllowed}/>
+      {isAllowed ? <NavBarIn usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed}/>: <NavBarOut usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed}/>}
       <Routes>
         <Route path="/" element={<Register/>}/>
         <Route path="/login" element={<Login usuario={usuario} setUsuario={setUsuario} 
         setIsAllowed={setIsAllowed}/>}/>
-        
-        <Route element={<ProtectedRoutes isAllowed={isAllowed} redirectTo="/login" children={undefined}/>} >
-          <Route path="/main" element={<Main usuario={usuario.Email} />}/>  
-          <Route path="/properties">
-            <Route index={true} element={<Properties/>} />
-            <Route path="add" element={<AddProperty/>}/>
-            <Route path="details/:id" element={<PropertiesDetails/>}/>
+
+        <Route path="/properties">
+          <Route index={true} element={<Properties/>} />
+          <Route path="details/:id" element={<PropertiesDetails/>}/>
+          <Route element={<ProtectedRoutes isAllowed={isAllowed} 
+          redirectTo='/login' children={undefined}/>}>
+            <Route path='add' element={<AddProperty usuarioInfo={usuarioInfo} />} />
           </Route>
+        </Route>
+
+        <Route element={<ProtectedRoutes isAllowed={isAllowed} redirectTo="/login" children={undefined}/>} >
+          <Route path="/main" element={<Main usuario={usuario.name} />}/>  
         </Route>
     
       </Routes>

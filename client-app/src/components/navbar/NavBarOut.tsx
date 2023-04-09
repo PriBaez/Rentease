@@ -18,7 +18,6 @@ const NavBarOut = ({usuario, setUsuario, isAllowed}:{usuario:string, setUsuario:
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><NavLink to={'/properties'} end={true} className="dropdown-item">Explorar</NavLink></li>
-                                <li><NavLink to={'/properties/add'} className="dropdown-item">Vender/Alquilar</NavLink></li>
                             </ul>
                         </li>
 

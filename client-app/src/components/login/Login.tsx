@@ -2,43 +2,53 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = ({usuario, setUsuario, setIsAllowed}: 
-    {usuario:{Email:string, Pwd:string}, setUsuario:Function, setIsAllowed: Function }) => {
+    {usuario:{
+        id: number,
+        name: string,
+        pwd: string,
+        email: string,
+        phone: string,
+        createdAt: Date,
+        role: number}, setUsuario:Function, setIsAllowed: Function }) => {
 
     const navigate = useNavigate();
     const [logInError, setLogInError] = useState<boolean>(false);
+    const [credentials, setCredentials] = useState({email: '', pwd: ''})
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
-        setUsuario({...usuario, [name]:value})
+        setCredentials({...credentials, [name]:value})
     }
 
     const handleSubmit = async(e: any) => {
         e.preventDefault();
         const inputValue = {
-            Email: usuario.Email,
-            Pwd: usuario.Pwd
+            email: credentials.email,
+            pwd: credentials.pwd
         }
 
         try {
-            let res = await fetch('https://localhost:7272/api/User/login', {
+            await fetch('https://localhost:7272/api/User/login', {
                 method: 'POST',
                 headers:  {'Content-type':'application/json; charset=UTF-8'},
                 body: JSON.stringify(inputValue)
-            });
-            
-            if(res.ok){
+            }).then((response) => {
+                
+                if (response.ok){
+                    return response.json()
+
+                } else  {throw new Error()}
+
+            }).then((data) => {
+                setUsuario(data);
                 setIsAllowed(true)
                 navigate('/main')
-            
-            } else if (res.status === 401){
-                navigate('/login')
-                setLogInError(true);
-                setIsAllowed(true);
-            }
-
+            });
 
         } catch (error) {
-        console.log(error)
+            setLogInError(true);
+            setIsAllowed(false);
+            navigate('/login');
         }
     }
 
@@ -66,13 +76,13 @@ const Login = ({usuario, setUsuario, setIsAllowed}:
 
                             <div className="form-outline mb-4">
                                 <input type="email" id="inputEmail" className="form-control form-control-md" 
-                                name='Email' onChange={handleChange}/>
+                                name='email' onChange={handleChange}/>
                                 <label className="form-label" htmlFor="inputEmail">Correo electronico</label>
                             </div>
 
                             <div className="form-outline mb-4">
                                 <input type="password" id="inputPwd" className="form-control form-control-md" 
-                                name='Pwd' onChange={handleChange}/>
+                                name='pwd' onChange={handleChange}/>
                                 <label className="form-label" htmlFor="inputPwd">Contraseña</label>
                             </div>
 

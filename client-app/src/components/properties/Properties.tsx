@@ -5,6 +5,8 @@ import { NavLink } from 'react-router-dom';
 
 
 const Properties = () => {
+    let indexImg = 0
+    let currenPost = 0
     const [properties, setProperties] = useState([] as any[]);
     const [images, setImages] = useState([] as any[]);
     
@@ -22,26 +24,30 @@ const Properties = () => {
         .catch((err) => {
             console.log(err.message);
         })
-    }, [])
+    }, []);
 
     return(
        <Fragment>
         <div className="row row-cols-lg-4 gx-5">
             {properties.map((properties) => {
                 return(
-                    <div className="col">
+                    <div className="col mb-4">
                         <NavLink to={'/properties/details/' + properties.id} key={properties.id} 
-                                className="card card-properties mb-3 mt-4 ms-auto shadow-lg">
+                                className="card card-properties h-100 mt-4 ms-auto shadow-lg">
                                 { 
                                 images.map((i) => 
                                     {  
-                                        let indexImg = 0
                                         if(i.propertyId === properties.id && indexImg < 1)
                                         {
-                                        indexImg++
-                                        return( <img src={`data:image/jpeg;base64,${i.image}`} className="card-img-top" alt="..."/>)
-                                        }
+                                            indexImg++
+                                            currenPost = properties.id
+                                            return( <img src={`data:image/jpeg;base64,${i.image}`} className="card-img-top" alt="..."/>)
                                         
+                                        } else if (currenPost !== properties.id)
+                                        {
+                                            indexImg = 0
+                                            return(null)
+                                        }
                                     }
                                 )}
                                 <div className="card-body">

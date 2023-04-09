@@ -2,7 +2,9 @@ import { format } from "date-fns";
 import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AddProperty = () => {
+const AddProperty = ({usuarioInfo}:{usuarioInfo:{id: number,name: string,
+    email: string, phone: string,}}) => {
+
     let propertyID: number = 0;
     const formData = new FormData()
     const navigate = useNavigate();
@@ -12,7 +14,7 @@ const AddProperty = () => {
     const [property, setProperty] = useState({
             id: 0,
             createdAt: new Date(),
-            sellerId: 0,
+            sellerId: usuarioInfo.id,
             titulo: '',
             price: 0.00,
             areaTotal: 0.00,
@@ -50,7 +52,7 @@ const AddProperty = () => {
         e.preventDefault();
         const propertyValue = {
             createdAt: property.createdAt,
-            sellerId: property.sellerId,
+            sellerId: usuarioInfo.id,
             titulo: property.titulo,
             price: property.price,
             areaTotal: property.areaTotal
@@ -80,8 +82,7 @@ const AddProperty = () => {
                 formData.append("propertyId", String(propertyID))
                 formData.append("image", img, img.name)
                 formData.append("uploadAt", String(format(new Date(), "yyyy/MM/dd h:m a")))
-                      
-                console.log(formData)
+                    
                 await fetch('https://localhost:7272/api/PropertiesImage', {
                 method: 'POST',
                 body: formData
@@ -116,18 +117,11 @@ const AddProperty = () => {
                     <form onSubmit={handleSubmit}> 
 
                         <div className="form-group mb-3">
-                            <input type="text" className="form-control" id="InputDate"
+                            <input type="hidden" className="form-control" id="InputDate"
                             name="createdAt" readOnly value={ format(new Date(), "yyyy/MM/dd h:m a")} onChange={handleChange}/>
                             <span className="text-danger"></span>
                         </div>
                         
-                        <div className="form-group mb-3">
-                            <label htmlFor="InputSeller" className="form-label">Vendedor</label>
-                            <input type="number" className="form-control" id="InputSeller"
-                            name="sellerId" onChange={handleChange}/>
-                            <span className="text-danger"></span>
-                        </div>
-                
                         <div className="form-group mb-3">
                             <label htmlFor="InputTitulo" className="form-label">Titulo</label>
                             <input type="text" className="form-control" id="InputTitulo"

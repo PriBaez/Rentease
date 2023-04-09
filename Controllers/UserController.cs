@@ -91,7 +91,7 @@ namespace SDGAV.Controllers
             {
                 return Unauthorized();
             } else {
-                return Ok();
+                return Ok(isValid.FirstOrDefault());
             }
             
         }
