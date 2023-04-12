@@ -11,7 +11,8 @@ import Properties from './components/properties/Properties';
 import AddProperty from './components/properties/AddProperty';
 import PropertiesDetails from './components/properties/PropertiesDetails';
 import NavBarOut from './components/navbar/NavBarOut';
-import Carousel from './components/Carousel/Carousel';
+import Modal from './components/Comments/Modal';
+import PaginationProperties from './components/properties/Pagination';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
     createdAt: new Date(),
     role: 0
   });
+  
   const usuarioInfo = {
     id: usuario.id,
     name: usuario.name,
@@ -35,15 +37,15 @@ function App() {
 
   return (
     <BrowserRouter>
-      {isAllowed ? <NavBarIn usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed}/>: <NavBarOut usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed}/>}
+      {isAllowed ? <NavBarIn usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed} setIsAllowed={setIsAllowed}/>: <NavBarOut usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed} setIsAllowed={setIsAllowed}/>}
       <Routes>
         <Route path="/" element={<Register/>}/>
         <Route path="/login" element={<Login usuario={usuario} setUsuario={setUsuario} 
         setIsAllowed={setIsAllowed}/>}/>
 
         <Route path="/properties">
-          <Route index={true} element={<Properties/>} />
-          <Route path="details/:id" element={<PropertiesDetails/>}/>
+          <Route index={true} element={<PaginationProperties/>} />
+          <Route path="details/:id" element={<PropertiesDetails usuarioInfo={usuarioInfo} />}/>
           <Route element={<ProtectedRoutes isAllowed={isAllowed} 
           redirectTo='/login' children={undefined}/>}>
             <Route path='add' element={<AddProperty usuarioInfo={usuarioInfo} />} />

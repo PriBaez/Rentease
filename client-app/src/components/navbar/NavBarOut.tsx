@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import UserDropDown from "../userDropdown/UserDropDown";
 
-const NavBarOut = ({usuario, setUsuario, isAllowed}:{usuario:string, setUsuario:Function, isAllowed:boolean}) => {
+const NavBarOut = ({usuario, setUsuario, isAllowed, setIsAllowed}:{usuario:string, setUsuario:Function, isAllowed:boolean, setIsAllowed:Function}) => {
     return(
         <nav className="navbar navbar-expand-md bg-light">
             <div className="container-fluid">
@@ -28,9 +28,12 @@ const NavBarOut = ({usuario, setUsuario, isAllowed}:{usuario:string, setUsuario:
                             <button className="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </ul>
-                    <div className='nav-item ms-auto align-items-end'>
-                        <UserDropDown user={usuario} isAllowed={isAllowed} setUsuario={setUsuario}/>
-                    </div>
+                    
+                    <ul className="navbar-nav ms-auto align-items-end">
+                        <div className='nav-item dropdown me-auto align-items-end'>
+                            <UserDropDown user={usuario} isAllowed={isAllowed} setUsuario={setUsuario} setIsAllowed={setIsAllowed}/>
+                        </div>
+                    </ul>
                 </div>
             </div>
         </nav>

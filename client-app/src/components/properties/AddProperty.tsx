@@ -26,9 +26,6 @@ const AddProperty = ({usuarioInfo}:{usuarioInfo:{id: number,name: string,
         {
             setImages([...event.target.files])        
         }
-
-        
-
     }
 
     const checkFileLimits = (quantity: number) => {
@@ -105,7 +102,7 @@ const AddProperty = ({usuarioInfo}:{usuarioInfo:{id: number,name: string,
     return(
         <div>
 
-            <div className="card">
+            <div className="card m-5">
                 <h5 className="card-header">Agregar propiedad para vender/alquilar</h5>
                 <div className="card-body">
             

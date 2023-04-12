@@ -2,9 +2,13 @@
   font-size: "60px";
 }
 
-.log-off {
+.no-deco {
   outline: 0;
   text-decoration: none;
+}
+
+.link-dropLst:hover{
+  background-color: black;
 }
 
 /* Animation for dropdown */

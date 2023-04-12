@@ -1,15 +1,16 @@
 import "./Carousel.css"
 
 const Carousel = ({images}:{images: any []}) => {
+
     return(
     <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="true">
         <div className="carousel-indicators">
             {images.map((x, index) => {
                 return index === 0 ?  
-                <button type="button" data-bs-target="#carouselExampleIndicators" 
+                <button key={index} type="button" data-bs-target="#carouselExampleIndicators" 
                 data-bs-slide-to={index} className="active" aria-current="true" aria-label={`Slide i ${index + 1}`}></button>
                 :
-                <button type="button" data-bs-target="#carouselExampleIndicators" 
+                <button key={index} type="button" data-bs-target="#carouselExampleIndicators" 
                 data-bs-slide-to={index} aria-label={`Slide i ${index + 1}`}></button>
         
             })}

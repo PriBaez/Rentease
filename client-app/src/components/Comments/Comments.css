@@ -1,0 +1,27 @@
+
+.avatar {
+    width: 75px;
+    height: 75px;
+}
+
+.send-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.reply-link {
+    outline: 0;
+    text-decoration: none;
+}
+
+.fit-content {
+    height: fit-content;
+}
+
+.reply-to{
+    height: fit-content;
+}
+
+.dropdown-toggle::after {
+    content: none;
+}
