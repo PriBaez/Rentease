@@ -50,7 +50,7 @@ const Properties = ({properties, setProperties}:
         let attributeFormatted = propertyAttribute.map((pAttr) => {    
                 return attributes.map((attr, index) => {
                 return pAttr.idAttribute === attr.id ?
-                <p>{attr.description} {pAttr.quantity}</p>: null
+                <p key={index}>{attr.description} {pAttr.quantity}</p>: null
             })
         })
 

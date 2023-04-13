@@ -1,15 +1,23 @@
 import { format } from "date-fns";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AddAttributes from "../attributes/AddAttributes";
 
 const AddProperty = ({usuarioInfo}:{usuarioInfo:{id: number,name: string,
     email: string, phone: string,}}) => {
 
     let propertyID: number = 0;
+    let sizeForAttributeArray = 0;
+    
     const formData = new FormData()
     const navigate = useNavigate();
+
     const [images, setImages] = useState([] as any [])
+    const [attributes, setAttributes] = useState([] as any [])
+    const [attributesToPost, setAttributesToPost] = useState([] as any [])
+    const [propertyAttributes, setPropertyAttributes] = useState([] as any [])
     const [uploadError, setUploadError] = useState(false)
+   
     
     const [property, setProperty] = useState({
             id: 0,
@@ -19,6 +27,16 @@ const AddProperty = ({usuarioInfo}:{usuarioInfo:{id: number,name: string,
             price: 0.00,
             areaTotal: 0.00,
         })
+
+        useEffect(() => {
+            fetch('https://localhost:7272/api/Attribute')
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                setAttributes(data)
+            })
+        }, [])
 
    
     const handleImage = (event: any) => {
@@ -71,6 +89,26 @@ const AddProperty = ({usuarioInfo}:{usuarioInfo:{id: number,name: string,
         } catch (error) {
             console.log("error in post property", error)
         }
+
+        
+        
+        try {
+            
+            await fetch('https://localhost:7272/api/PropertiesAttribute', {
+            method: 'POST',
+            headers:  {'Content-type':'application/json; charset=UTF-8'},
+            body: JSON.stringify(propertyValue)
+                
+            }).then((response) => response.json())
+            .then((data) => {
+                propertyID = data;
+            });  
+           
+        } catch (error) {
+            console.log("error in post property", error)
+        }
+
+
 
         try {
             
@@ -139,6 +177,8 @@ const AddProperty = ({usuarioInfo}:{usuarioInfo:{id: number,name: string,
                             name="areaTotal" step="0.01" onChange={handleChange} />
                             <span className="text-danger"></span>
                         </div>
+
+                        <AddAttributes attributes={attributes} propertyID={propertyID}/>
 
                         <div className="form-group mb-4">
                             <h6>Imagenes a publicar</h6>
