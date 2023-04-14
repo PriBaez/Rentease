@@ -1,7 +1,9 @@
+import { set } from "date-fns";
 import { HTMLInputTypeAttribute, ReactElement, useEffect, useState } from "react";
 
 
-const AddAttributes = ({ attributes, propertyID, setAttributes }: { attributes: any[], propertyID: number, setAttributes: any; }) => {
+const AddAttributes = ({ attributes, propertyID, rawAttributes, setRawAttributes, }: { attributes: any[], propertyID: number, 
+    setAttributes: any, rawAttributes:any [], setRawAttributes: Function }) => {
 
     const attributesToSet: any[] = new Array(attributes.length).fill({});
     // estado que depende de attributes 
@@ -30,10 +32,11 @@ const AddAttributes = ({ attributes, propertyID, setAttributes }: { attributes: 
     };
 
     const handleQuantity = (e: any, id: number) => {
-        const { value } = e.target;
-        const _quantity = [...quantity];
-        _quantity[id] = value === "" ? 0 : parseInt(value);
-        setQuantity(_quantity);
+        
+        const updatedQuantity = quantity.map((item, index) =>
+            index === id ? parseInt(e.target.value) : item
+        );
+        setQuantity(updatedQuantity)
     };
 
     useEffect(() => {
@@ -41,8 +44,8 @@ const AddAttributes = ({ attributes, propertyID, setAttributes }: { attributes: 
             return { ...attributes[index], status: value, quantity: quantity[index] };
         });
 
-        setAttributes(_attributes);
-    }, [checkedState, quantity, setAttributes, attributes]);
+        setRawAttributes(_attributes);
+    }, [checkedState, quantity, setRawAttributes, attributes]);
 
     return (
         <div className="form-group mb-3">

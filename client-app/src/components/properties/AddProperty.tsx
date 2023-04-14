@@ -98,23 +98,37 @@ const AddProperty = ({ usuarioInfo }: {
             console.log("error in post property", error);
         }
 
-
-
+        // guardar los atributos referentere a esa propiedad
         try {
 
-            await fetch('https://localhost:7272/api/PropertiesAttribute', {
+            const propAttribute = propertyAttributes.filter(x => x.status === true)
+
+            propAttribute.forEach(async (propAtrr, index) => {
+                const propertyAttrValue = {
+                    id: 0,
+                    propertyId: propertyID,
+                    idAttribute: propAtrr.id,
+                    quantity: propAtrr.quantity
+                };
+               
+                await fetch('https://localhost:7272/api/PropertiesAttribute', {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json; charset=UTF-8' },
-                body: JSON.stringify(propertyValue)
+                body: JSON.stringify(propertyAttrValue)
 
-            }).then((response) => response.json())
-                .then((data) => {
-                    propertyID = data;
-                });
+                }).then((response) => {
+                    if (response.status !== 200) {
+                        response.text().then(text => { throw new Error(text); });
+                    }
+                })
+              
 
+            })
+        
         } catch (error) {
-            console.log("error in post property", error);
+            console.log("error in post property attributes", error);
         }
+
 
 
 
@@ -189,6 +203,8 @@ const AddProperty = ({ usuarioInfo }: {
                             attributes={attributes}
                             propertyID={propertyID}
                             setAttributes={handleSetAttributes}
+                            rawAttributes={propertyAttributes}
+                            setRawAttributes={setPropertyAttributes}
                         />
 
                         <div className="form-group mb-4">
