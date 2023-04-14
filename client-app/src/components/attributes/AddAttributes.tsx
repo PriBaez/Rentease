@@ -3,45 +3,43 @@ import { HTMLInputTypeAttribute, ReactElement, useEffect, useState } from "react
 
 const AddAttributes = ({attributes, propertyID}:{attributes:any [], propertyID:number}) => {
 
+    const attributesToSet:any [] = new Array(attributes.length).fill({})
     // estado que depende de attributes 
     const [checkedState, setCheckedState] = useState( new Array(attributes.length).fill(false) );
     const [quantity, setQuantity] = useState( new Array(attributes.length).fill(0) );
 
     useEffect(() => {
-        setCheckedState(new Array(attributes.length).fill(false) );
+        setCheckedState(new Array(attributes.length).fill(false));
         setQuantity(new Array(attributes.length).fill(0))
-        console.log("atributos seteados")
     }, [attributes])
     
     // controlador de eventos de los checkbox
     const handleOnChange = (position:number) => {
-        // esto funciona solo su checkedstate tiene valores guardados
+        
         const updatedCheckedState = checkedState.map((item, index) =>
             index === position ? !item : item
         );
 
-        setCheckedState(updatedCheckedState);
-        
+        setCheckedState(updatedCheckedState); 
     }
     
 
-    let attributesToSet:any [] = []
-      
-    // [{"":""},{"":""},{"":""}]
-
+    // [{}:{}:{}]
+    // checkedState = [false, false, false]
     const handleAttributes = async (e: any, id:number) => {
         const {name, value} = e.target
         await handleOnChange(id)
         checkedState.map((attr, index) => {
-            console.log('attr', attr)
-            return attr === true ? (attributesToSet.splice(index, 0, {
+            console.log('comparacion', index === id)
+
+            return attr === true && index === id ? (attributesToSet[index] = {
                 id:0, 
                 propertyId: propertyID, 
                 attributeId: value, 
                 quantity: quantity[index]
-            }))
+            })
             :
-            (null)
+            console.log(false)
         })
         console.log('array to set',attributesToSet)
 
