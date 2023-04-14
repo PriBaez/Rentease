@@ -32,14 +32,15 @@ const AddAttributes = ({attributes, propertyID}:{attributes:any [], propertyID:n
         checkedState.map((attr, index) => {
             console.log('comparacion', index === id)
 
-            return attr === true && index === id ? (attributesToSet[index] = {
-                id:0, 
-                propertyId: propertyID, 
-                attributeId: value, 
-                quantity: quantity[index]
-            })
-            :
-            console.log(false)
+            if(attr === true && index === id) 
+            {
+                (attributesToSet[index] = {
+                    id:0, 
+                    propertyId: propertyID, 
+                    attributeId: value, 
+                    quantity: quantity[index]
+                })
+            }
         })
         console.log('array to set',attributesToSet)
 
