@@ -66,5 +66,11 @@ namespace SDGAV.Controllers
             _context.SaveChanges();
             return Ok();
         }
+
+        [HttpGet("MyProperties/{userId}")]
+        public IEnumerable<Property> GetPropertyPerUser(int userId)
+        {
+            return _context.Properties.Where(x => x.SellerId == userId).ToList();
+        }
     }
 }

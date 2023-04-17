@@ -19,7 +19,7 @@ const PaginationProperties = () => {
     return(
         <Fragment>
                 <div className="d-flex flex-column">
-                    <Properties properties={currentCards} setProperties={setProperties} />
+                    {/* <Properties properties={currentCards} setProperties={setProperties} /> */}
                     
                     <div className="mt-5 mb-3 align-self-center">
                         <BtnPagination totalCards={properties.length} cardperPage={cardsperPage}

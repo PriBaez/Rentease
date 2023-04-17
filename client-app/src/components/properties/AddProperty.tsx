@@ -11,14 +11,12 @@ const AddProperty = ({ usuarioInfo }: {
 }) => {
 
     let propertyID: number = 0;
-    let sizeForAttributeArray = 0;
 
     const formData = new FormData();
     const navigate = useNavigate();
 
     const [images, setImages] = useState([] as any[]);
     const [attributes, setAttributes] = useState([] as any[]);
-    const [attributesToPost, setAttributesToPost] = useState([] as any[]);
     const [propertyAttributes, setPropertyAttributes] = useState([] as any[]);
     const [uploadError, setUploadError] = useState(false);
 
@@ -201,9 +199,7 @@ const AddProperty = ({ usuarioInfo }: {
 
                         <AddAttributes
                             attributes={attributes}
-                            propertyID={propertyID}
                             setAttributes={handleSetAttributes}
-                            rawAttributes={propertyAttributes}
                             setRawAttributes={setPropertyAttributes}
                         />
 

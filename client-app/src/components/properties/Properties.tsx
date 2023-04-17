@@ -3,17 +3,33 @@ import format from 'date-fns/format';
 import "./Properties.css"
 import { NavLink } from 'react-router-dom';
 import Spinner from '../spinner/Spinner';
+import BtnPagination from './BtnPagination';
 
 
-const Properties = ({properties, setProperties}:
-    {properties:any [], setProperties:Function}) => {
-    let indexImg = 0
+const Properties = () => {
+    
+        let indexImg = 0
     let currenPost = 0
     const [loading, setLoading] = useState(false)
     const [images, setImages] = useState([] as any[]);
     const [propertyAttributes, setPropertyAttributes] = useState([] as any[])
     const [attributes, setAttributes] = useState([] as any[])
+
+    const [allProperties, setAllProperties] = useState([] as any[])
+    const [properties, setProperties] = useState([] as any[]);
     
+    const [currentPage, setCurrentPage] = useState(1)
+    const cardsperPage:number = 8
+
+
+    const lastCardIndex = currentPage * cardsperPage
+    const firstCardIndex = lastCardIndex - cardsperPage
+    
+    const currentCards = allProperties.slice(firstCardIndex, lastCardIndex)
+    
+    const setCurrentCards = () => {
+        setProperties(currentCards)
+    }    
 
     useEffect(() => {
         setLoading(true)
@@ -27,7 +43,7 @@ const Properties = ({properties, setProperties}:
         Promise.all([resProperty.json(), resImage.json(), resPropertyAttribute.json(),
                     resAttributes.json()]))
         .then(([dataProperty, dataImage, dataPropertyAttributes, dataAttributes]) => {
-            setProperties(dataProperty);
+            setAllProperties(dataProperty);
             setImages(dataImage);
             setPropertyAttributes(dataPropertyAttributes)
             setAttributes(dataAttributes)
@@ -39,6 +55,10 @@ const Properties = ({properties, setProperties}:
             setLoading(false)
         })
     }, []);
+
+    useEffect(() => {
+        setCurrentCards()
+        }, [allProperties])
 
     const sortByDate = () => {
         return properties.sort((a,b) =>  new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
@@ -104,6 +124,13 @@ const Properties = ({properties, setProperties}:
                 )
                     
             })}
+                <div className="mt-5 mb-3 align-self-center">
+                    <BtnPagination 
+                        totalCards={allProperties.length} 
+                        cardperPage={cardsperPage}
+                        setCurrentPage={setCurrentPage} 
+                        currentPage={currentPage}/>
+                </div>
             </div> )
             : <Spinner/>}
         </Fragment>

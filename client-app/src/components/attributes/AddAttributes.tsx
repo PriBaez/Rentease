@@ -1,11 +1,9 @@
-import { set } from "date-fns";
-import { HTMLInputTypeAttribute, ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 
-const AddAttributes = ({ attributes, propertyID, rawAttributes, setRawAttributes, }: { attributes: any[], propertyID: number, 
-    setAttributes: any, rawAttributes:any [], setRawAttributes: Function }) => {
+const AddAttributes = ({ attributes, setRawAttributes, }: { attributes: any[], 
+    setAttributes: any, setRawAttributes: Function }) => {
 
-    const attributesToSet: any[] = new Array(attributes.length).fill({});
     // estado que depende de attributes 
     const [checkedState, setCheckedState] = useState(new Array(attributes.length).fill(false));
     const [quantity, setQuantity] = useState(new Array(attributes.length).fill(0));

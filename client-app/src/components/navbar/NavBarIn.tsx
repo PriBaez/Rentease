@@ -13,12 +13,13 @@ const NavBarIn = ({usuario, setUsuario, isAllowed, setIsAllowed}:{usuario:string
                 <div className="collapse navbar-collapse" id="navbarScroll">
                     <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
                         <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a className="nav-link dropdown-toggle" href="/#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Propiedades
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><NavLink to={'/properties'} end={true} className="dropdown-item">Explorar</NavLink></li>
                                 <li><NavLink to={'/properties/add'} className="dropdown-item">Vender/Alquilar</NavLink></li>
+                                <li><NavLink to={'/properties/myProperties'} className="dropdown-item">Mis propiedades</NavLink></li>
                             </ul>
                         </li>
 

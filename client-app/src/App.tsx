@@ -7,12 +7,11 @@ import Login from './components/login/Login';
 import Main from './components/main/Main';
 import ProtectedRoutes from './components/routing/ProtectedRoutes';
 import NavBarIn from './components/navbar/NavBarIn';
-import Properties from './components/properties/Properties';
 import AddProperty from './components/properties/AddProperty';
 import PropertiesDetails from './components/properties/PropertiesDetails';
 import NavBarOut from './components/navbar/NavBarOut';
-import Modal from './components/Comments/Modal';
-import PaginationProperties from './components/properties/Pagination';
+import MyProperties from './components/properties/MyProperties';
+import Properties from './components/properties/Properties';
 
 
 function App() {
@@ -44,12 +43,13 @@ function App() {
         setIsAllowed={setIsAllowed}/>}/>
 
         <Route path="/properties">
-          <Route index={true} element={<PaginationProperties/>} />
+          <Route index={true} element={<Properties/>} />
           <Route path="details/:id" element={<PropertiesDetails usuarioInfo={usuarioInfo} />}/>
           <Route element={<ProtectedRoutes isAllowed={isAllowed} 
           redirectTo='/login' children={undefined}/>}>
             <Route path='add' element={<AddProperty usuarioInfo={usuarioInfo} />} />
           </Route>
+          <Route path='myProperties' element={<MyProperties usuarioId={usuarioInfo.id} />} />
         </Route>
 
         <Route element={<ProtectedRoutes isAllowed={isAllowed} redirectTo="/login" children={undefined}/>} >
