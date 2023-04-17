@@ -8,6 +8,7 @@ namespace SDGAV.Models
         public Property()
         {
             Comments = new HashSet<Comment>();
+            Offers = new HashSet<Offer>();
             PropertiesAttributes = new HashSet<PropertiesAttribute>();
             PropertiesImages = new HashSet<PropertiesImage>();
             UsersFavorites = new HashSet<UsersFavorite>();
@@ -20,9 +21,12 @@ namespace SDGAV.Models
         public string Titulo { get; set; } = null!;
         public double Price { get; set; }
         public double AreaTotal { get; set; }
+        public int TypeOfExchange { get; set; }
 
         public virtual User? Seller { get; set; } = null!;
+        public virtual TypeOfExchange? TypeOfExchangeNavigation { get; set; } = null!;
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<PropertiesAttribute> PropertiesAttributes { get; set; }
         public virtual ICollection<PropertiesImage> PropertiesImages { get; set; }
         public virtual ICollection<UsersFavorite> UsersFavorites { get; set; }

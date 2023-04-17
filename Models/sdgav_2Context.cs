@@ -18,12 +18,14 @@ namespace SDGAV.Models
 
         public virtual DbSet<Attribute> Attributes { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
+        public virtual DbSet<Offer> Offers { get; set; } = null!;
         public virtual DbSet<Operation> Operations { get; set; } = null!;
         public virtual DbSet<PropertiesAttribute> PropertiesAttributes { get; set; } = null!;
         public virtual DbSet<PropertiesImage> PropertiesImages { get; set; } = null!;
         public virtual DbSet<Property> Properties { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<RolesOperation> RolesOperations { get; set; } = null!;
+        public virtual DbSet<TypeOfExchange> TypeOfExchanges { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UsersFavorite> UsersFavorites { get; set; } = null!;
         public virtual DbSet<UsersRating> UsersRatings { get; set; } = null!;
@@ -33,7 +35,7 @@ namespace SDGAV.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost;Database=sdgav_2;User=SA;Password=Sql.1234;Trusted_Connection=False");
+                optionsBuilder.UseSqlServer("Name=ConnectionStrings:db");
             }
         }
 
@@ -86,6 +88,33 @@ namespace SDGAV.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_comments_users");
+            });
+
+            modelBuilder.Entity<Offer>(entity =>
+            {
+                entity.ToTable("offers");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.PropertyId).HasColumnName("property_id");
+
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.Property)
+                    .WithMany(p => p.Offers)
+                    .HasForeignKey(d => d.PropertyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_property_offers");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Offers)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_user_offers");
             });
 
             modelBuilder.Entity<Operation>(entity =>
@@ -168,11 +197,21 @@ namespace SDGAV.Models
                     .IsUnicode(false)
                     .HasColumnName("titulo");
 
+                entity.Property(e => e.TypeOfExchange)
+                    .HasColumnName("type_of_exchange")
+                    .HasDefaultValueSql("((1))");
+
                 entity.HasOne(d => d.Seller)
                     .WithMany(p => p.Properties)
                     .HasForeignKey(d => d.SellerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_seller_id");
+
+                entity.HasOne(d => d.TypeOfExchangeNavigation)
+                    .WithMany(p => p.Properties)
+                    .HasForeignKey(d => d.TypeOfExchange)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_property_type_of_exchange");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -208,6 +247,18 @@ namespace SDGAV.Models
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_roles_operations_roles");
+            });
+
+            modelBuilder.Entity<TypeOfExchange>(entity =>
+            {
+                entity.ToTable("type_of_exchanges");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("name");
             });
 
             modelBuilder.Entity<User>(entity =>
