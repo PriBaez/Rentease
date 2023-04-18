@@ -1,9 +1,16 @@
+import { useState } from "react";
 
 
-const ApplyToPropertyForm = () => {
+const ApplyToProperty= ({modal, setModal}:{modal:Boolean, setModal:Function}) => {
+    
+    const showModal = () => setModal(!modal)
+    
+
+
     return(
-        <p>Apply to property works!</p>
+       <button type="button" className="btn btn-success" data-bs-toggle="modal" 
+       data-bs-target="#exampleModal" onClick={() => showModal()}>Aplicar</button>
     );
 }
 
-export default ApplyToPropertyForm;
+export default ApplyToProperty;

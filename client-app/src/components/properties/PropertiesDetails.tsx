@@ -5,6 +5,9 @@ import './PropertiesDetails.css'
 import Carousel from "../Carousel/Carousel";
 import Comments from "../Comments/Comments";
 import Spinner from "../spinner/Spinner";
+import SeeOffers from "./SeeOffers";
+import ApplyToProperty from "./ApplyToProperty";
+import ApplyModal from './ApplyModal';
 
 const PropertiesDetails = ({usuarioInfo}:{usuarioInfo:{
     id: number,
@@ -15,7 +18,10 @@ const PropertiesDetails = ({usuarioInfo}:{usuarioInfo:{
 
     const { id } = useParams();
     const [images, setImages] = useState([] as any[])
+    const [propertyAttributes, setPropertyAttributes] = useState([] as any[])
+    const [attributes, setAttributes] = useState([] as any[])
     const [loading, setLoading] = useState<boolean>(false);
+    const [modal, setModal] = useState<boolean>(false);
     
     const [property, setProperty] = useState({
         id: 0,
@@ -31,12 +37,18 @@ const PropertiesDetails = ({usuarioInfo}:{usuarioInfo:{
         Promise.all([
             fetch('https://localhost:7272/api/Property/' + id),
             fetch('https://localhost:7272/api/PropertiesImage/post/' + id),
+            fetch('https://localhost:7272/api/PropertiesAttribute/perProperty/' + id),
+            fetch('https://localhost:7272/api/Attribute'),
         ])
-        .then(([resProperty, resImages]) => 
-        Promise.all([resProperty.json(), resImages.json()]))
-        .then(([dataProperty, dataImages]) => {
+        .then(([resProperty, resImages, resPropertyAttributes, resAttributes]) => 
+        Promise.all([resProperty.json(), resImages.json(), 
+            resPropertyAttributes.json(), resAttributes.json()]))
+
+        .then(([dataProperty, dataImages, dataPropertyAttributes, dataAttributes]) => {
             setProperty(dataProperty);
             setImages(dataImages);
+            setPropertyAttributes(dataPropertyAttributes);
+            setAttributes(dataAttributes)
         })
         .catch((err) => {
             console.log(err.message);
@@ -44,11 +56,25 @@ const PropertiesDetails = ({usuarioInfo}:{usuarioInfo:{
 
     }, [id]);
 
+    const getAttributes = (id:number):any [] => {
+       
+        let propertyAttribute = propertyAttributes.filter(attr => attr.propertyId === id)
+        let attributeFormatted = propertyAttribute.map((pAttr) => {    
+                return attributes.map((attr, index) => {
+                return pAttr.idAttribute === attr.id ?
+                <p key={index}>{attr.description} {pAttr.quantity}</p>: null
+            })
+        })
+
+        return attributeFormatted;
+    }
+
     return(
         <div>
             {loading === false ? (
             <div className="">
                 <div className="card m-5">
+                {modal ? <ApplyModal/> : null}
                     <div className="row g-0">
                         <div className="col-md-7">
                         {
@@ -59,7 +85,21 @@ const PropertiesDetails = ({usuarioInfo}:{usuarioInfo:{
                             <div className="card-body">
                             <h5 className="card-title">{property.titulo}</h5>
                             <p className="card-text"><small className="text-muted">publicado el {format(new Date(property.createdAt), 'dd/MM/yyyy')}</small></p>
-                            <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <div className="card-text">
+                                {getAttributes(property.id).map((pAttr, index) => {
+                                    return(
+                                        <div key={index} className='col'>
+                                            <div className='row'>
+                                                {pAttr}
+                                                
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            
+                            {usuarioInfo.id === property.sellerId ? <SeeOffers/> : <ApplyToProperty modal={modal} setModal={setModal} /> }
+                            
                             </div>
                         </div>
                     </div>

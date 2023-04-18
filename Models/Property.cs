@@ -22,6 +22,7 @@ namespace SDGAV.Models
         public double Price { get; set; }
         public double AreaTotal { get; set; }
         public int TypeOfExchange { get; set; }
+        public bool? Status { get; set; }
 
         public virtual User? Seller { get; set; } = null!;
         public virtual TypeOfExchange? TypeOfExchangeNavigation { get; set; } = null!;

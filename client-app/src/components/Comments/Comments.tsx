@@ -120,11 +120,11 @@ const Comments = ({propertyId, usuarioInfo}:{propertyId:string, usuarioInfo:{
                         Comentario eliminado exitosamente
                     </div> : null
                 }
-                { rmComment === false ?
+                {/* { rmComment === false ?
                     <div className="alert alert-danger" role="alert">
                         su Comentario no pudo ser eliminado
                     </div> : null
-                }
+                } */}
                         {/* <img className="rounded-circle shadow-1-strong me-3 avatar"
                             src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar" /> */}
                             { rootComment.length > 0 ?

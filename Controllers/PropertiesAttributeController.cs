@@ -66,5 +66,12 @@ namespace SDGAV.Controllers
             _context.SaveChanges();
             return Ok();
         }
+
+        [HttpGet("perProperty/{propertyId}")]
+        public IEnumerable<PropertiesAttribute> GetAttributePerProperty(int propertyId)
+        {
+          
+           return  _context.PropertiesAttributes.Where(x => x.PropertyId == propertyId);
+        }
     }
 }

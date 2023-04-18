@@ -192,6 +192,11 @@ namespace SDGAV.Models
 
                 entity.Property(e => e.SellerId).HasColumnName("seller_id");
 
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasColumnName("status")
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.Titulo)
                     .HasMaxLength(50)
                     .IsUnicode(false)
