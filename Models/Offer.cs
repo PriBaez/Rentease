@@ -10,6 +10,7 @@ namespace SDGAV.Models
         public int UserId { get; set; }
         public double Quantity { get; set; }
         public bool Status { get; set; }
+        public bool IsAccepted { get; set; }
 
         public virtual Property? Property { get; set; } = null!;
         public virtual User? User { get; set; } = null!;

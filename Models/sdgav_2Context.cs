@@ -19,6 +19,7 @@ namespace SDGAV.Models
         public virtual DbSet<Attribute> Attributes { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<Offer> Offers { get; set; } = null!;
+        public virtual DbSet<OffersAccepted> OffersAccepteds { get; set; } = null!;
         public virtual DbSet<Operation> Operations { get; set; } = null!;
         public virtual DbSet<PropertiesAttribute> PropertiesAttributes { get; set; } = null!;
         public virtual DbSet<PropertiesImage> PropertiesImages { get; set; } = null!;
@@ -96,6 +97,8 @@ namespace SDGAV.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.IsAccepted).HasColumnName("is_accepted");
+
                 entity.Property(e => e.PropertyId).HasColumnName("property_id");
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
@@ -115,6 +118,29 @@ namespace SDGAV.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_user_offers");
+            });
+
+            modelBuilder.Entity<OffersAccepted>(entity =>
+            {
+                entity.ToTable("offers_accepted");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AcceptedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("accepted_at");
+
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.RenterId).HasColumnName("renter_id");
+
+                entity.Property(e => e.SellerId).HasColumnName("seller_id");
+
+                entity.HasOne(d => d.Seller)
+                    .WithMany(p => p.OffersAccepteds)
+                    .HasForeignKey(d => d.SellerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_offers_renter_id");
             });
 
             modelBuilder.Entity<Operation>(entity =>

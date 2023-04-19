@@ -9,6 +9,7 @@ namespace SDGAV.Models
         {
             Comments = new HashSet<Comment>();
             Offers = new HashSet<Offer>();
+            OffersAccepteds = new HashSet<OffersAccepted>();
             Properties = new HashSet<Property>();
             UsersFavorites = new HashSet<UsersFavorite>();
             UsersRatingRatingFromNavigations = new HashSet<UsersRating>();
@@ -27,6 +28,7 @@ namespace SDGAV.Models
         public virtual Role? RoleNavigation { get; set; } = null!;
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
+        public virtual ICollection<OffersAccepted> OffersAccepteds { get; set; }
         public virtual ICollection<Property> Properties { get; set; }
         public virtual ICollection<UsersFavorite> UsersFavorites { get; set; }
         public virtual ICollection<UsersRating> UsersRatingRatingFromNavigations { get; set; }
