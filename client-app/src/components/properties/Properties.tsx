@@ -3,12 +3,12 @@ import format from 'date-fns/format';
 import "./Properties.css"
 import { NavLink } from 'react-router-dom';
 import Spinner from '../spinner/Spinner';
-import BtnPagination from './BtnPagination';
+import BtnPagination from '../pagination/BtnPagination';
 
 
 const Properties = () => {
     
-        let indexImg = 0
+    let indexImg = 0
     let currenPost = 0
     const [loading, setLoading] = useState(false)
     const [images, setImages] = useState([] as any[]);
@@ -32,6 +32,19 @@ const Properties = () => {
     }    
 
     useEffect(() => {
+        try {
+            setLoading(true)
+            sortByDate()
+            setProperties(currentCards)
+
+        } catch (error) {
+            
+        } finally {
+            setLoading(false)
+        }
+    }, [currentPage])
+
+    useEffect(() => {
         setLoading(true)
         Promise.all([
             fetch('https://localhost:7272/api/Property'),
@@ -52,16 +65,28 @@ const Properties = () => {
             console.log(err.message);
         })
         .finally(() => {
+            sortByDate()
             setLoading(false)
         })
     }, []);
 
     useEffect(() => {
-        setCurrentCards()
-        }, [allProperties])
+        try {
+            setLoading(true)
+            sortByDate()
+            setCurrentCards()
+        
+        } catch (error:any) {
+            console.log(error.message)
+            
+        } finally {   
+            setLoading(false)
+        }
+        
+    }, [allProperties])
 
     const sortByDate = () => {
-        return properties.sort((a,b) =>  new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        return allProperties.sort((a,b) =>  new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     }
 
     const getAttributes = (id:number):any [] => {
@@ -80,15 +105,15 @@ const Properties = () => {
     return(
        <Fragment>
             {loading === false ? 
-            (<div className='d-flex row row-cols-lg-4 gx-5'>
-                {sortByDate().map((properties, index) => {
+            (<div className='d-flex row row-cols-lg-4 gx-5 mx-2 justify-content-center'>
+                {properties.map((properties, index) => {
                 return(
                     <div className="col mb-4" key={index}>
                         <NavLink to={'/properties/details/' + properties.id} 
                                 className="card card-properties h-100 mt-4 ms-auto shadow-lg">
                                 { 
-                                images.map((i) => 
-                                    {  
+                                images.map((i) => {
+
                                         if(i.propertyId === properties.id && indexImg < 1)
                                         {
                                             indexImg++
@@ -100,6 +125,7 @@ const Properties = () => {
                                             indexImg = 0
                                             return(null)
                                         }
+                                        return null
                                     }
                                 )}
                                 <div className="card-body">
@@ -124,12 +150,14 @@ const Properties = () => {
                 )
                     
             })}
-                <div className="mt-5 mb-3 align-self-center">
+                <div className="row justify-content-center align-items-end mt-auto mb-3">
                     <BtnPagination 
                         totalCards={allProperties.length} 
                         cardperPage={cardsperPage}
                         setCurrentPage={setCurrentPage} 
-                        currentPage={currentPage}/>
+                        currentPage={currentPage}
+                        setCurrentCards={setCurrentCards}
+                        />
                 </div>
             </div> )
             : <Spinner/>}

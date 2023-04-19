@@ -7,21 +7,20 @@ import Comments from "../Comments/Comments";
 import Spinner from "../spinner/Spinner";
 import SeeOffers from "./SeeOffers";
 import ApplyToProperty from "./ApplyToProperty";
-import ApplyModal from './ApplyModal';
+import ApplyModal from '../modalOffers/ApplyModal';
+import { UsuarioInfo } from '../../interface/UsuarioInfo';
+import AlertSucces from "../alerts/AlertSuccess";
+import AlertFail from "../alerts/AlertFail";
 
-const PropertiesDetails = ({usuarioInfo}:{usuarioInfo:{
-    id: number,
-    name: string,
-    email: string,
-    phone: string
-}}) => {
+const PropertiesDetails = ({usuarioInfo}:{usuarioInfo:UsuarioInfo}) => {
 
     const { id } = useParams();
     const [images, setImages] = useState([] as any[])
     const [propertyAttributes, setPropertyAttributes] = useState([] as any[])
     const [attributes, setAttributes] = useState([] as any[])
     const [loading, setLoading] = useState<boolean>(false);
-    const [modal, setModal] = useState<boolean>(false);
+    const [resModalOk, setResModalOk] = useState<boolean>(false)
+    const [resModalFail, setResModalFail] = useState<boolean>(false)
     
     const [property, setProperty] = useState({
         id: 0,
@@ -74,7 +73,11 @@ const PropertiesDetails = ({usuarioInfo}:{usuarioInfo:{
             {loading === false ? (
             <div className="">
                 <div className="card m-5">
-                {modal ? <ApplyModal/> : null}
+                {resModalOk ? <AlertSucces message="Oferta realizada con exito!"/> : null}
+                {resModalFail ? <AlertFail message="Su oferta no se pudo realizar,por favor trate de nuevo en unos instantes."/> : null}                
+                <ApplyModal 
+                propertyId={parseInt(id!)} 
+                usuarioInfo={usuarioInfo} setResOk={setResModalOk} setResFail={setResModalFail}/>
                     <div className="row g-0">
                         <div className="col-md-7">
                         {
@@ -98,7 +101,7 @@ const PropertiesDetails = ({usuarioInfo}:{usuarioInfo:{
                                 })}
                             </div>
                             
-                            {usuarioInfo.id === property.sellerId ? <SeeOffers/> : <ApplyToProperty modal={modal} setModal={setModal} /> }
+                            {usuarioInfo.id === property.sellerId ? <SeeOffers/> : <ApplyToProperty/> }
                             
                             </div>
                         </div>

@@ -38,21 +38,21 @@ function App() {
     <BrowserRouter>
       {isAllowed ? <NavBarIn usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed} setIsAllowed={setIsAllowed}/>: <NavBarOut usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed} setIsAllowed={setIsAllowed}/>}
       <Routes>
-        <Route path="/" element={<Register/>}/>
-        <Route path="/login" element={<Login usuario={usuario} setUsuario={setUsuario} 
+        <Route path="/register" element={<Register/>}/>
+        <Route path="/" element={<Login usuario={usuario} setUsuario={setUsuario} 
         setIsAllowed={setIsAllowed}/>}/>
 
         <Route path="/properties">
           <Route index={true} element={<Properties/>} />
           <Route path="details/:id" element={<PropertiesDetails usuarioInfo={usuarioInfo} />}/>
           <Route element={<ProtectedRoutes isAllowed={isAllowed} 
-          redirectTo='/login' children={undefined}/>}>
+          redirectTo='/' children={undefined}/>}>
             <Route path='add' element={<AddProperty usuarioInfo={usuarioInfo} />} />
           </Route>
           <Route path='myProperties' element={<MyProperties usuarioId={usuarioInfo.id} />} />
         </Route>
 
-        <Route element={<ProtectedRoutes isAllowed={isAllowed} redirectTo="/login" children={undefined}/>} >
+        <Route element={<ProtectedRoutes isAllowed={isAllowed} redirectTo="/" children={undefined}/>} >
           <Route path="/main" element={<Main usuario={usuario.name} />}/>  
         </Route>
     
