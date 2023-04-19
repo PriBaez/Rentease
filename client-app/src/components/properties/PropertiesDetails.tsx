@@ -5,12 +5,13 @@ import './PropertiesDetails.css'
 import Carousel from "../Carousel/Carousel";
 import Comments from "../Comments/Comments";
 import Spinner from "../spinner/Spinner";
-import SeeOffers from "./SeeOffers";
+import SeeOffers from "../displayOffer/SeeOffers";
 import ApplyToProperty from "./ApplyToProperty";
 import ApplyModal from '../modalOffers/ApplyModal';
 import { UsuarioInfo } from '../../interface/UsuarioInfo';
 import AlertSucces from "../alerts/AlertSuccess";
 import AlertFail from "../alerts/AlertFail";
+import ListOffers from "../displayOffer/ListOffers";
 
 const PropertiesDetails = ({usuarioInfo}:{usuarioInfo:UsuarioInfo}) => {
 
@@ -75,9 +76,14 @@ const PropertiesDetails = ({usuarioInfo}:{usuarioInfo:UsuarioInfo}) => {
                 <div className="card m-5">
                 {resModalOk ? <AlertSucces message="Oferta realizada con exito!"/> : null}
                 {resModalFail ? <AlertFail message="Su oferta no se pudo realizar,por favor trate de nuevo en unos instantes."/> : null}                
+                
+                {usuarioInfo.id === property.sellerId ? 
+                <ListOffers propertyId={parseInt(id!)}/>
+                : 
                 <ApplyModal 
                 propertyId={parseInt(id!)} 
                 usuarioInfo={usuarioInfo} setResOk={setResModalOk} setResFail={setResModalFail}/>
+            }
                     <div className="row g-0">
                         <div className="col-md-7">
                         {

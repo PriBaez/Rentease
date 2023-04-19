@@ -65,5 +65,11 @@ namespace SDGAV.Controllers
             _context.SaveChanges();
             return Ok();
         }
+
+        [HttpGet("myOffers/{propertyId}")]
+        public IEnumerable<Offer> OfferPerHouse(int propertyId)
+        {     
+           return _context.Offers.Where(x => x.PropertyId == propertyId).ToList();   
+        }
     }
 }
