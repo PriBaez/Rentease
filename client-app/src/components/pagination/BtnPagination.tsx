@@ -25,7 +25,7 @@ const BtnPagination = ({totalCards, cardperPage, setCurrentPage, currentPage, se
     }
 
     return(
-        <div className="position-sticky align-self-end">
+        <div className="position-sticky align-self-end mt-3">
             <nav aria-label="...">
                 <ul className="pagination">
                     <li className="page-item">

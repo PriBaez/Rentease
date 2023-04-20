@@ -13,6 +13,7 @@ import NavBarOut from './components/navbar/NavBarOut';
 import MyProperties from './components/properties/MyProperties';
 import Properties from './components/properties/Properties';
 import OffCanvasMenu from './components/OffCanvasUser/OffCanvasMenu';
+import MyUserForm from './components/MyUser/MyUserForm';
 
 
 function App() {
@@ -37,28 +38,30 @@ function App() {
 
   return (
     <BrowserRouter>
-      {isAllowed ? <NavBarIn usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed} setIsAllowed={setIsAllowed}/>: <NavBarOut usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed} setIsAllowed={setIsAllowed}/>}
-      {isAllowed ? <OffCanvasMenu isAllowed={isAllowed} setIsAllowed={setIsAllowed} user={usuario.name} setUsuario={setUsuario} />:null}
-      <Routes>
-        <Route path="/register" element={<Register/>}/>
-        <Route path="/" element={<Login usuario={usuario} setUsuario={setUsuario} 
-        setIsAllowed={setIsAllowed}/>}/>
+        {isAllowed ? <NavBarIn usuario={usuario.name} isAllowed={isAllowed}/>: <NavBarOut usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed} setIsAllowed={setIsAllowed}/>}
+        {isAllowed ? <OffCanvasMenu isAllowed={isAllowed} setIsAllowed={setIsAllowed} user={usuario.name} setUsuario={setUsuario} />:null}
+        <Routes>
+          <Route path="/" element={<Login usuario={usuario} setUsuario={setUsuario} 
+          setIsAllowed={setIsAllowed}/>}/>
+          
+          <Route path="/register" element={<Register/>}/>
 
-        <Route path="/properties">
-          <Route index={true} element={<Properties/>} />
-          <Route path="details/:id" element={<PropertiesDetails usuarioInfo={usuarioInfo} />}/>
-          <Route element={<ProtectedRoutes isAllowed={isAllowed} 
-          redirectTo='/' children={undefined}/>}>
-            <Route path='add' element={<AddProperty usuarioInfo={usuarioInfo} />} />
+          <Route path="/properties">
+            <Route index={true} element={<Properties/>} />
+            <Route path="details/:id" element={<PropertiesDetails usuarioInfo={usuarioInfo} />}/>
+            <Route element={<ProtectedRoutes isAllowed={isAllowed} 
+            redirectTo='/' children={undefined}/>}>
+              <Route path='add' element={<AddProperty usuarioInfo={usuarioInfo} />} />
+            </Route>
+            <Route path='myProperties' element={<MyProperties usuarioId={usuarioInfo.id} />} />
           </Route>
-          <Route path='myProperties' element={<MyProperties usuarioId={usuarioInfo.id} />} />
-        </Route>
 
-        <Route element={<ProtectedRoutes isAllowed={isAllowed} redirectTo="/" children={undefined}/>} >
-          <Route path="/main" element={<Main usuario={usuario.name} />}/>  
-        </Route>
-    
-      </Routes>
+          <Route element={<ProtectedRoutes isAllowed={isAllowed} redirectTo="/" children={undefined}/>} >
+            <Route path="/main" element={<Main usuario={usuario.name} />}/>  
+            <Route path="/myUser" element={<MyUserForm userId={usuario.id}/>}/>  
+          </Route>
+      
+        </Routes>
     </BrowserRouter>
   );
 }

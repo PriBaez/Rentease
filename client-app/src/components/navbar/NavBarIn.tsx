@@ -1,10 +1,9 @@
 import { NavLink } from 'react-router-dom';
-// import UserDropDown from '../userDropdown/UserDropDown';
 import OffCanvasUserIcon from '../OffCanvasUser/OffCanvasUserIcon';
 
-const NavBarIn = ({usuario, setUsuario, isAllowed, setIsAllowed}:{usuario:string, setUsuario:Function, isAllowed:boolean, setIsAllowed:Function}) => {
+const NavBarIn = ({usuario, isAllowed}:{usuario:string, isAllowed:boolean}) => {
     return(
-        <nav className="navbar navbar-expand-md bg-light">
+        <nav className="navbar navbar-expand-md bg-light navbar-fixed-top">
             <div className="container-fluid">
                 <NavLink to={'/main'} className="navbar-brand">Rentease</NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +19,6 @@ const NavBarIn = ({usuario, setUsuario, isAllowed, setIsAllowed}:{usuario:string
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><NavLink to={'/properties'} end={true} className="dropdown-item">Explorar</NavLink></li>
                                 <li><NavLink to={'/properties/add'} className="dropdown-item">Vender/Alquilar</NavLink></li>
-                                <li><NavLink to={'/properties/myProperties'} className="dropdown-item">Mis propiedades</NavLink></li>
                             </ul>
                         </li>
 

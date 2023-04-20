@@ -1,9 +1,10 @@
 import { useNavigate, NavLink } from 'react-router-dom';
 import {GrUserAdmin, GrUserSettings, GrUserWorker} from "react-icons/gr"
-import {BiBuildingHouse, BiMoneyWithdraw, BiUser, BiLogIn, BiLogOut, BiUserCircle} from "react-icons/bi"
+import {BiBuildingHouse, BiMoneyWithdraw, BiLogOut, BiUserCircle} from "react-icons/bi"
 import {MdOutlineEditAttributes} from "react-icons/md"
 import {FiUsers} from "react-icons/fi"
 import {BsKey} from "react-icons/bs"
+
 
 
 const OffCanvasMenu = ({isAllowed, setIsAllowed, user, setUsuario}:{isAllowed:boolean, setIsAllowed:Function, user:string, setUsuario:Function}) => {
@@ -20,12 +21,10 @@ const OffCanvasMenu = ({isAllowed, setIsAllowed, user, setUsuario}:{isAllowed:bo
     navigate("/")
    }
 
-   const logIn = () => {
-    navigate("/")
-   }
+   const offCanvas = document.getElementById("offcanvasExample")
 
-    const showLogOff = () => <li className="list-group-item mb-1" onClick={logOff}><span className="me-1"><BiLogOut/></span>Cerrar sesión</li>
-    const showLogIn = () => <li className="list-group-item mb-1" onClick={logIn}><span className="me-1"><BiLogIn/>Iniciar sesión</span></li>
+
+    const showLogOff = () => <li className="list-group-item mb-1" role='button' onClick={logOff}><span className="me-1"><BiLogOut/></span>Cerrar sesión</li>
     
     return(
         <div className="offcanvas offcanvas-end" tabIndex={-1} id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -36,10 +35,19 @@ const OffCanvasMenu = ({isAllowed, setIsAllowed, user, setUsuario}:{isAllowed:bo
             <div className="offcanvas-body pt-1">
                 <div>
                     <ul className="mb-4">
-                        <li className="list-group-item mb-1"><NavLink to={'/properties/myProperties'} className="text-decoration-none text-secondary"><span className="text-secondary me-1"><BiBuildingHouse/></span>Mis propiedades</NavLink></li>
-                        <li className="list-group-item mb-1"><span className="me-1"><BiMoneyWithdraw/></span>Mis ofertas</li>
+                        <li className="list-group-item mb-1"><NavLink to={'/properties/myProperties'} 
+                        className="text-decoration-none text-secondary" data-bs-dismiss="offcanvas"> 
+                            <span className="text-secondary me-1">
+                                <BiBuildingHouse/>
+                            </span>Mis propiedades</NavLink>
+                        </li>
+
+                        <li className="list-group-item mb-1"><span className="me-1">
+                            <BiMoneyWithdraw/></span>Mis ofertas
+                        </li>
+
                         <li className="list-group-item mb-1"><NavLink to={'/myUser'} className='text-secondary text-decoration-none'><span className="me-1 text-secondary"><GrUserSettings/></span>Mi usuario</NavLink></li>
-                        {isAllowed ? showLogOff(): showLogIn()}
+                        {isAllowed ? showLogOff(): null}
                     </ul>
                     <h6 className="h6 mb-2"><span className="me-1"><GrUserAdmin size={20}/></span> Panel administrador</h6>
                     <ul className="mt-1">

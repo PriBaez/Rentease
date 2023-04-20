@@ -158,7 +158,6 @@ const AddProperty = ({ usuarioInfo }: {
 
     return (
         <div>
-
             <div className="card m-5">
                 <h5 className="card-header">Agregar propiedad para vender/alquilar</h5>
                 <div className="card-body">

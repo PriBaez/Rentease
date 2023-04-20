@@ -33,15 +33,11 @@ const Properties = () => {
 
     useEffect(() => {
         try {
-            setLoading(true)
-            sortByDate()
             setProperties(currentCards)
 
         } catch (error) {
             
-        } finally {
-            setLoading(false)
-        }
+        } 
     }, [currentPage])
 
     useEffect(() => {
@@ -72,15 +68,12 @@ const Properties = () => {
 
     useEffect(() => {
         try {
-            setLoading(true)
             sortByDate()
             setCurrentCards()
         
         } catch (error:any) {
             console.log(error.message)
             
-        } finally {   
-            setLoading(false)
         }
         
     }, [allProperties])

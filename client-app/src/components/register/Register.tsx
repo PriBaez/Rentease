@@ -45,7 +45,7 @@ const Register = () => {
             if (res.status === 200)
             {
                 setOk(true);
-                const timer = setTimeout(() => navigate('/login'), 4000)
+                const timer = setTimeout(() => navigate('/'), 4000)
                 return () => clearTimeout(timer)
             }
 

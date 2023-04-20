@@ -32,6 +32,7 @@ const Login = ({usuario, setUsuario, setIsAllowed}:
         setLoading(true)
 
         try {
+            console.log(inputValue)
             await fetch('https://localhost:7272/api/User/login', {
                 method: 'POST',
                 headers:  {'Content-type':'application/json; charset=UTF-8'},
@@ -54,7 +55,7 @@ const Login = ({usuario, setUsuario, setIsAllowed}:
             setLoading(false)
             setLogInError(true);
             setIsAllowed(false);
-            navigate('/login');
+            navigate('/');
         }
     }
 
