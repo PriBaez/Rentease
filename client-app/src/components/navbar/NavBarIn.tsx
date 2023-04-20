@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import UserDropDown from '../userDropdown/UserDropDown';
+// import UserDropDown from '../userDropdown/UserDropDown';
+import OffCanvasUserIcon from '../OffCanvasUser/OffCanvasUserIcon';
 
 const NavBarIn = ({usuario, setUsuario, isAllowed, setIsAllowed}:{usuario:string, setUsuario:Function, isAllowed:boolean, setIsAllowed:Function}) => {
     return(
@@ -33,7 +34,8 @@ const NavBarIn = ({usuario, setUsuario, isAllowed, setIsAllowed}:{usuario:string
                     
                     <ul className="navbar-nav ms-auto align-items-end">
                         <div className='nav-item dropdown me-auto align-items-end'>
-                            <UserDropDown user={usuario} isAllowed={isAllowed} setUsuario={setUsuario} setIsAllowed={setIsAllowed}/>
+                            {/* <UserDropDown user={usuario} isAllowed={isAllowed} setUsuario={setUsuario} setIsAllowed={setIsAllowed}/> */}
+                            <OffCanvasUserIcon isAllowed={isAllowed} user={usuario}/>
                         </div>
                     </ul>
                 </div>

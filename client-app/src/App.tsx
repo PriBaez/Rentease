@@ -12,6 +12,7 @@ import PropertiesDetails from './components/properties/PropertiesDetails';
 import NavBarOut from './components/navbar/NavBarOut';
 import MyProperties from './components/properties/MyProperties';
 import Properties from './components/properties/Properties';
+import OffCanvasMenu from './components/OffCanvasUser/OffCanvasMenu';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
   return (
     <BrowserRouter>
       {isAllowed ? <NavBarIn usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed} setIsAllowed={setIsAllowed}/>: <NavBarOut usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed} setIsAllowed={setIsAllowed}/>}
+      {isAllowed ? <OffCanvasMenu isAllowed={isAllowed} setIsAllowed={setIsAllowed} user={usuario.name} setUsuario={setUsuario} />:null}
       <Routes>
         <Route path="/register" element={<Register/>}/>
         <Route path="/" element={<Login usuario={usuario} setUsuario={setUsuario} 

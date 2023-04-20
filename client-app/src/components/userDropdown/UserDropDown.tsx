@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 function UserDropDown({isAllowed, setIsAllowed, user, setUsuario}:{isAllowed:boolean, setIsAllowed:Function, user:string, setUsuario:Function}) {
    
     const navigate = useNavigate()
-    // const [toggle, setToggle] = useState(false);
     const usuario = {
       Email:'', 
       Pwd:''
