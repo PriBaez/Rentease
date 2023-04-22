@@ -1,10 +1,7 @@
-// import { format } from "date-fns";
-import { Fragment, useEffect, useState } from "react";
-import { BiUserCircle, BiPencil, BiEraser } from "react-icons/bi";
+import { Fragment, useEffect, useState } from "react"
+import { BiEraser, BiPencil, BiUserCircle } from "react-icons/bi"
 
-
-const MyUserForm = ({userId}:{userId:number}) => {
-    
+const DangerZone = ({userId}:{userId:number}) => {
     const [roles, setRoles] = useState([] as any [])
     const [user, setUser] = useState({
         id: '',
@@ -137,7 +134,7 @@ const MyUserForm = ({userId}:{userId:number}) => {
                                     aria-label="Floating label select example" name="role" 
                                     value={user.role} disabled={isEditing ? false:true} 
                                     onChange={handleChange}>
-                                        <option disabled defaultValue={0}>Roles a elegir...</option>
+                                        <option value={0} disabled selected>Roles a elegir...</option>
                                         {roles.map((role, index) => {
                                             return(
                                                 <option key={index} value={parseInt(role.id)}>{role.name}</option>
@@ -158,7 +155,6 @@ const MyUserForm = ({userId}:{userId:number}) => {
                 </div>
             </div>
         </Fragment>
-    )
-}
+)}
 
-export default MyUserForm;
+export default DangerZone;

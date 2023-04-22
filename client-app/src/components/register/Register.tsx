@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './Register.css';
 import { useNavigate } from 'react-router-dom';
 
+
 const Register = () => {
 
     const navigate = useNavigate()
@@ -14,13 +15,12 @@ const Register = () => {
         Email: '',
         Phone: '',
         CreatedAt: new Date(),
-        Role: 1
+        Role: 2
     });
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setUsuario({...usuario, [name]:value});
-        console.log(usuario)
     }
 
     const handleSubmit = async(e: any) => {
@@ -69,7 +69,7 @@ const Register = () => {
     
     
     return(
-        <section className="vh-100 overflow-auto">
+        <section className="mh-100">
             <div className="container py-5 h-100">
                 <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col-12 col-md-8 col-md-6 col-xl-5">
@@ -104,7 +104,7 @@ const Register = () => {
                                         <label className="form-label" htmlFor="inputPwd">Contraseña</label>
                                     </div>
 
-                                    <button className="btn btn-primary btn-md btn-block" type="submit">Acceder</button>
+                                    <button className="btn btn-primary btn-md btn-block" type="submit">Registrarse</button>
                                 </form>
 
                             </div>

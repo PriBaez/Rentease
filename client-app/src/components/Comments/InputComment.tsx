@@ -55,8 +55,8 @@ const InputComment = ({propertyId, usuarioId, rating, setResCommentOk,
                 setResCommentOk(true)
                 setIsEditing(false)
                 setIsReplying(false)
-                setComment(initialComment)
                 setTimeout(() => {
+                    setComment(initialComment)
                     setResCommentOk(false)
                   }, 3000);
                

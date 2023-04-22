@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Spinner from "../spinner/Spinner";
+import "./Login.css"
 
 const Login = ({usuario, setUsuario, setIsAllowed}: 
     {usuario:{
@@ -32,7 +33,6 @@ const Login = ({usuario, setUsuario, setIsAllowed}:
         setLoading(true)
 
         try {
-            console.log(inputValue)
             await fetch('https://localhost:7272/api/User/login', {
                 method: 'POST',
                 headers:  {'Content-type':'application/json; charset=UTF-8'},
@@ -93,6 +93,8 @@ const Login = ({usuario, setUsuario, setIsAllowed}:
                                         name='pwd' onChange={handleChange}/>
                                         <label className="form-label" htmlFor="inputPwd">Contraseña</label>
                                     </div>
+
+                                    <NavLink to={'/register'} className="btn btn-link text-decoration-none text-decoration-none text-muted">No tienes una cuenta? Registrate</NavLink>
 
                                     <button className="btn btn-primary btn-md btn-block" type="submit">Acceder</button>
                                 </form>

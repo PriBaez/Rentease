@@ -14,6 +14,8 @@ import MyProperties from './components/properties/MyProperties';
 import Properties from './components/properties/Properties';
 import OffCanvasMenu from './components/OffCanvasUser/OffCanvasMenu';
 import MyUserForm from './components/MyUser/MyUserForm';
+import MyOffers from './components/MyOffers/MyOffers';
+import Collections from './components/Collection/Collections';
 
 
 function App() {
@@ -45,15 +47,17 @@ function App() {
           setIsAllowed={setIsAllowed}/>}/>
           
           <Route path="/register" element={<Register/>}/>
+          <Route path='/collections' element={<Collections/>}/>
 
           <Route path="/properties">
-            <Route index={true} element={<Properties/>} />
+            <Route index={true} element={<Properties userId={usuario.id}/>} />
             <Route path="details/:id" element={<PropertiesDetails usuarioInfo={usuarioInfo} />}/>
             <Route element={<ProtectedRoutes isAllowed={isAllowed} 
             redirectTo='/' children={undefined}/>}>
               <Route path='add' element={<AddProperty usuarioInfo={usuarioInfo} />} />
+              <Route path='myProperties' element={<MyProperties usuarioId={usuarioInfo.id} />} />
+              <Route path='MyOffers' element={<MyOffers userId={usuarioInfo.id} />} />
             </Route>
-            <Route path='myProperties' element={<MyProperties usuarioId={usuarioInfo.id} />} />
           </Route>
 
           <Route element={<ProtectedRoutes isAllowed={isAllowed} redirectTo="/" children={undefined}/>} >

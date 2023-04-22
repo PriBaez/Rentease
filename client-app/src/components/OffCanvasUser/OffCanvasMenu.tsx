@@ -21,9 +21,6 @@ const OffCanvasMenu = ({isAllowed, setIsAllowed, user, setUsuario}:{isAllowed:bo
     navigate("/")
    }
 
-   const offCanvas = document.getElementById("offcanvasExample")
-
-
     const showLogOff = () => <li className="list-group-item mb-1" role='button' onClick={logOff}><span className="me-1"><BiLogOut/></span>Cerrar sesión</li>
     
     return(
@@ -36,14 +33,18 @@ const OffCanvasMenu = ({isAllowed, setIsAllowed, user, setUsuario}:{isAllowed:bo
                 <div>
                     <ul className="mb-4">
                         <li className="list-group-item mb-1"><NavLink to={'/properties/myProperties'} 
-                        className="text-decoration-none text-secondary" data-bs-dismiss="offcanvas"> 
+                        className="text-decoration-none text-secondary"> 
                             <span className="text-secondary me-1">
                                 <BiBuildingHouse/>
                             </span>Mis propiedades</NavLink>
                         </li>
 
-                        <li className="list-group-item mb-1"><span className="me-1">
-                            <BiMoneyWithdraw/></span>Mis ofertas
+                        
+
+                        <li className="list-group-item mb-1"><NavLink to={'/Properties/MyOffers'} 
+                        className="text-decoration-none text-secondary"> 
+                           <span className="text-secondary me-1">
+                            <BiMoneyWithdraw/></span>Mis ofertas</NavLink>
                         </li>
 
                         <li className="list-group-item mb-1"><NavLink to={'/myUser'} className='text-secondary text-decoration-none'><span className="me-1 text-secondary"><GrUserSettings/></span>Mi usuario</NavLink></li>
