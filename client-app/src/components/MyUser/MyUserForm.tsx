@@ -1,6 +1,7 @@
 // import { format } from "date-fns";
 import { Fragment, useEffect, useState } from "react";
 import { BiUserCircle, BiPencil, BiEraser } from "react-icons/bi";
+import DangerZone from "./DangerZone";
 
 
 const MyUserForm = ({userId}:{userId:number}) => {
@@ -118,13 +119,6 @@ const MyUserForm = ({userId}:{userId:number}) => {
                                     <label htmlFor="floatingNameValue">Nombre</label>
                                 </div>
 
-                                {/* <div className="form-floating mb-3">
-                                    <input type="email" className="form-control" name="email"
-                                    id="floatingEmailValue" readOnly={isEditing ? false:true}  
-                                    value={user.email} onChange={handleChange}/>
-                                    <label htmlFor="floatingEmailValue">Email</label>
-                                </div> */}
-
                                 <div className="form-floating mb-3">
                                     <input type="text" className="form-control" name="phone"
                                     id="floatingPhoneValue" readOnly={isEditing ? false:true}  
@@ -132,7 +126,7 @@ const MyUserForm = ({userId}:{userId:number}) => {
                                     <label htmlFor="floatingPhoneValue">Telefono</label>
                                 </div>
 
-                                <div className="form-floating">
+                                {/* <div className="form-floating">
                                     <select className="form-select" id="floatingSelect" 
                                     aria-label="Floating label select example" name="role" 
                                     value={user.role} disabled={isEditing ? false:true} 
@@ -145,7 +139,7 @@ const MyUserForm = ({userId}:{userId:number}) => {
                                         })}
                                     </select>
                                     <label htmlFor="floatingSelect">Roles</label>
-                                </div>
+                                </div> */}
                                 
                                 {isEditing ? (<button type="submit" className="btn btn-primary me-3 mt-3 mb-2">
                                             <i className="bi bi-person-check me-1"></i>Guardar</button>)
@@ -153,6 +147,10 @@ const MyUserForm = ({userId}:{userId:number}) => {
                                             null
                                 }
                             </form>
+
+                            <div className="container mt-3">
+                                <DangerZone userId={userId}/>
+                            </div>
                         </div>
                     </div>
                 </div>

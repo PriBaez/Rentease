@@ -15,7 +15,7 @@ import Properties from './components/properties/Properties';
 import OffCanvasMenu from './components/OffCanvasUser/OffCanvasMenu';
 import MyUserForm from './components/MyUser/MyUserForm';
 import MyOffers from './components/MyOffers/MyOffers';
-import Collections from './components/Collection/Collections';
+import { UsuarioInfo } from './interface/UsuarioInfo';
 
 
 function App() {
@@ -31,24 +31,29 @@ function App() {
     role: 0
   });
   
-  const usuarioInfo = {
+  const usuarioInfo: UsuarioInfo = {
     id: usuario.id,
     name: usuario.name,
     email: usuario.email,
-    phone: usuario.phone
+    phone: usuario.phone,
+    role: usuario.role
   }
 
   return (
     <BrowserRouter>
         {isAllowed ? <NavBarIn usuario={usuario.name} isAllowed={isAllowed}/>: <NavBarOut usuario={usuario.name} setUsuario={setUsuario} isAllowed={isAllowed} setIsAllowed={setIsAllowed}/>}
-        {isAllowed ? <OffCanvasMenu isAllowed={isAllowed} setIsAllowed={setIsAllowed} user={usuario.name} setUsuario={setUsuario} />:null}
+        {isAllowed ? <OffCanvasMenu isAllowed={isAllowed} 
+                        setIsAllowed={setIsAllowed} 
+                        user={usuario.name} 
+                        setUsuario={setUsuario}
+                        isAdmin={usuario.role === 1} />
+                      :null}
         <Routes>
           <Route path="/" element={<Login usuario={usuario} setUsuario={setUsuario} 
           setIsAllowed={setIsAllowed}/>}/>
           
           <Route path="/register" element={<Register/>}/>
-          <Route path='/collections' element={<Collections/>}/>
-
+  
           <Route path="/properties">
             <Route index={true} element={<Properties userId={usuario.id}/>} />
             <Route path="details/:id" element={<PropertiesDetails usuarioInfo={usuarioInfo} />}/>

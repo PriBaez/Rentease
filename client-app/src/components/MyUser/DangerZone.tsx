@@ -1,7 +1,9 @@
 import { Fragment, useEffect, useState } from "react"
 import { BiEraser, BiPencil, BiUserCircle } from "react-icons/bi"
+import { useNavigate } from "react-router-dom"
 
 const DangerZone = ({userId}:{userId:number}) => {
+    const navigate = useNavigate()
     const [roles, setRoles] = useState([] as any [])
     const [user, setUser] = useState({
         id: '',
@@ -12,11 +14,9 @@ const DangerZone = ({userId}:{userId:number}) => {
         createdAt: '',
         role: 0
     })
-
+    
     const [ok, setOk] = useState<boolean>(false)
     const [fail, setFail] = useState<boolean>(false)
-    const [isEditing, setIsEditing] = useState(false)
- 
     
     useEffect(() => {
         Promise.all([fetch('https://localhost:7272/api/User/' + userId),
@@ -64,14 +64,16 @@ const DangerZone = ({userId}:{userId:number}) => {
                 setOk(true)
                 setTimeout(() => {
                     setOk(false)
+                    navigate("/")
                   }, 3000);
             }
 
-           } catch (error) {
-            console.log(error)
+           } catch (error:any) {
+            console.log(error.message)
             setFail(true)
                 setTimeout(() => {
                     setFail(false)
+                    navigate("/")
                   }, 3000);
            }
     }
@@ -80,75 +82,34 @@ const DangerZone = ({userId}:{userId:number}) => {
     return(
         <Fragment>
             <div className="d-flex justify-content-center m-5">
-                <div className="col-12 col-md-10 col-lg-8 col-xl-6">
+                <div className="col-8 col-12 col-md-12 col-lg-12 col-xl-12">
                     <div className="card mb-5">
                         <h5 className="card-header">
-                            Informacion de mi cuenta
+                           Zona de peligro
                         </h5>
                         <div className="card-body">
                             {ok ? <div className="alert alert-success">Se aplicaron los cambios a la cuenta</div>: null}
                             {fail ? <div className="alert alert-danger">Algo salio mal por favor trate de nuevo</div>: null}
                             
                             <div className="d-flex container justify-content-center">
-                               <div>
-                                    <BiUserCircle size={80}/>  
-                               </div> 
+                                   <div className="alert alert-outline alert-warning">
+                                        El cambiar tu contraseña hara que salgas de tu cuenta y tengas que volver a entrar.
+                                   </div>
                             </div>
-                            <div className="d-flex justify-content-center">
-                                <p>se unió el { new Date(user.createdAt).toDateString()}</p>
-                            </div>
-                            <div className="d-flex justify-content-center">
-                                <button className="btn btn-link text-end ms-1 text-decoration-none"
-                                    onClick={() => setIsEditing(!isEditing)}>
-                                    <BiPencil size={20}/> Editar
-                                </button>
-                                <button className="btn btn-link text-end ms-1 text-decoration-none">
-                                    <BiEraser size={20}/> Eliminar cuenta
-                                </button>
-                            </div>
+                            
                             <form className="form-floating" onSubmit={handleSubmit}>
                                 
                                 <div className="form-floating mb-3">
-                                    <input type="text" className="form-control" name="name"
-                                    id="floatingNameValue" readOnly={isEditing ? false:true} 
-                                    value={user.name} onChange={handleChange}/>
-                                    <label htmlFor="floatingNameValue">Nombre</label>
+                                    <input type="password" className="form-control" name="pwd"
+                                    id="floatingPwdValue"
+                                     onChange={handleChange}/>
+                                    <label htmlFor="floatingPwdValue">Escribe tu nueva contraseña</label>
                                 </div>
 
-                                {/* <div className="form-floating mb-3">
-                                    <input type="email" className="form-control" name="email"
-                                    id="floatingEmailValue" readOnly={isEditing ? false:true}  
-                                    value={user.email} onChange={handleChange}/>
-                                    <label htmlFor="floatingEmailValue">Email</label>
-                                </div> */}
-
-                                <div className="form-floating mb-3">
-                                    <input type="text" className="form-control" name="phone"
-                                    id="floatingPhoneValue" readOnly={isEditing ? false:true}  
-                                    value={user.phone} onChange={handleChange}/>
-                                    <label htmlFor="floatingPhoneValue">Telefono</label>
-                                </div>
-
-                                <div className="form-floating">
-                                    <select className="form-select" id="floatingSelect" 
-                                    aria-label="Floating label select example" name="role" 
-                                    value={user.role} disabled={isEditing ? false:true} 
-                                    onChange={handleChange}>
-                                        <option value={0} disabled selected>Roles a elegir...</option>
-                                        {roles.map((role, index) => {
-                                            return(
-                                                <option key={index} value={parseInt(role.id)}>{role.name}</option>
-                                            )
-                                        })}
-                                    </select>
-                                    <label htmlFor="floatingSelect">Roles</label>
-                                </div>
-                                
-                                {isEditing ? (<button type="submit" className="btn btn-primary me-3 mt-3 mb-2">
-                                            <i className="bi bi-person-check me-1"></i>Guardar</button>)
-                                            :
-                                            null
-                                }
+                                <button type="submit" className="btn btn-primary me-3 mt-3 mb-2">
+                                    Guardar
+                                </button>
+                                            
                             </form>
                         </div>
                     </div>
