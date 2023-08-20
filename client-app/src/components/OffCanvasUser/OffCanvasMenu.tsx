@@ -1,7 +1,7 @@
 import { useNavigate, NavLink } from 'react-router-dom';
 import {GrUserSettings} from "react-icons/gr"
 import {BiBuildingHouse, BiMoneyWithdraw, BiLogOut, BiUserCircle} from "react-icons/bi"
-import AdminSection from './AdminSection';
+import AdminSection from '../Admin/AdminSection';
 
 
 const OffCanvasMenu = ({isAllowed, setIsAllowed, user, setUsuario, isAdmin}

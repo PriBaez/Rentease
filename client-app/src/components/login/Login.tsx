@@ -48,7 +48,7 @@ const Login = ({usuario, setUsuario, setIsAllowed}:
                 setUsuario(data);
                 setIsAllowed(true)
                 setLoading(false)
-                navigate('/main')
+                navigate('/properties')
             });
 
         } catch (error) {

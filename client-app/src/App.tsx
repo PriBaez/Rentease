@@ -16,6 +16,18 @@ import OffCanvasMenu from './components/OffCanvasUser/OffCanvasMenu';
 import MyUserForm from './components/MyUser/MyUserForm';
 import MyOffers from './components/MyOffers/MyOffers';
 import { UsuarioInfo } from './interface/UsuarioInfo';
+import AttributesPanel from './components/Admin/Attributes/AttributesPanel';
+import EditAttribute from './components/Admin/Attributes/EditAttribute';
+import RmAttribute from './components/Admin/Attributes/RmAttribute';
+import AddAttribute from './components/Admin/Attributes/AddAttribute';
+import UsersPanel from './components/Admin/Users/UsersPanel';
+import AddUser from './components/Admin/Users/AddUser';
+import EditUser from './components/Admin/Users/EditUser';
+import RmUser from './components/Admin/Users/RmUser';
+import RolesPanel from './components/Admin/Roles/RolesPanel';
+import AddRole from './components/Admin/Roles/AddRole';
+import EditRole from './components/Admin/Roles/EditRole';
+import RmRole from './components/Admin/Roles/RmRole';
 
 
 function App() {
@@ -49,11 +61,15 @@ function App() {
                         isAdmin={usuario.role === 1} />
                       :null}
         <Routes>
+          {/* Ruta no protegida que propaga los estados de autenticacion y datos de usuario */}
           <Route path="/" element={<Login usuario={usuario} setUsuario={setUsuario} 
           setIsAllowed={setIsAllowed}/>}/>
-          
+
+          {/* Ruta no protegida */}
           <Route path="/register" element={<Register/>}/>
   
+          {/* Rutas protegidas que son dependientes de la raiz 
+          padre properties (details/:id, add, myProperties) */}
           <Route path="/properties">
             <Route index={true} element={<Properties userId={usuario.id}/>} />
             <Route path="details/:id" element={<PropertiesDetails usuarioInfo={usuarioInfo} />}/>
@@ -65,11 +81,41 @@ function App() {
             </Route>
           </Route>
 
+          {/* Rutas protegidas que no tienen ni son dependientes */}
           <Route element={<ProtectedRoutes isAllowed={isAllowed} redirectTo="/" children={undefined}/>} >
-            <Route path="/main" element={<Main usuario={usuario.name} />}/>  
             <Route path="/myUser" element={<MyUserForm userId={usuario.id}/>}/>  
           </Route>
-      
+
+          {/* Rutas protegidas que son dependientes de la raiz 
+          padre properties (details/:id, add, myProperties) */}
+          
+          <Route path='cpanel' element={<ProtectedRoutes isAllowed={isAllowed && usuarioInfo.role === 1} 
+            redirectTo='/' children={undefined}/>}>
+            <Route path='Propertyattributes'>
+              <Route index={true} element={<AttributesPanel/>} />
+              <Route path='add' element={<AddAttribute/>} />
+              <Route path='edit/:id' element={<EditAttribute/>} />
+              <Route path='rm/:id' element={<RmAttribute/>}/>
+            </Route>
+
+            <Route path='users'>
+                <Route index={true} element={<UsersPanel/>} />
+                <Route path='add' element={<AddUser/>} />
+                <Route path='edit/:id' element={<EditUser/>} />
+                <Route path='rm/:id' element={<RmUser/>}/>
+            </Route>
+
+            <Route path='roles'>
+                <Route index={true} element={<RolesPanel/>} />
+                <Route path='add' element={<AddRole/>} />
+                <Route path='edit/:id' element={<EditRole/>} />
+                <Route path='rm/:id' element={<RmRole/>}/>
+            </Route>
+          </Route>
+
+
+          
+
         </Routes>
     </BrowserRouter>
   );

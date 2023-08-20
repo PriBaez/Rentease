@@ -5,7 +5,7 @@ const NavBarOut = ({usuario, setUsuario, isAllowed, setIsAllowed}:{usuario:strin
     return(
         <nav className="navbar navbar-expand-md bg-light">
             <div className="container-fluid">
-                <NavLink to={'/main'} className="navbar-brand">Rentease</NavLink>
+                <NavLink to={'/properties'} className="navbar-brand">Rentease</NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
                 </button>

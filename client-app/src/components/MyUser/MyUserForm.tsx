@@ -8,7 +8,7 @@ const MyUserForm = ({userId}:{userId:number}) => {
     
     const [roles, setRoles] = useState([] as any [])
     const [user, setUser] = useState({
-        id: '',
+        id: 0,
         name: '',
         email: '',
         pwd: '',
@@ -126,21 +126,6 @@ const MyUserForm = ({userId}:{userId:number}) => {
                                     <label htmlFor="floatingPhoneValue">Telefono</label>
                                 </div>
 
-                                {/* <div className="form-floating">
-                                    <select className="form-select" id="floatingSelect" 
-                                    aria-label="Floating label select example" name="role" 
-                                    value={user.role} disabled={isEditing ? false:true} 
-                                    onChange={handleChange}>
-                                        <option disabled defaultValue={0}>Roles a elegir...</option>
-                                        {roles.map((role, index) => {
-                                            return(
-                                                <option key={index} value={parseInt(role.id)}>{role.name}</option>
-                                            )
-                                        })}
-                                    </select>
-                                    <label htmlFor="floatingSelect">Roles</label>
-                                </div> */}
-                                
                                 {isEditing ? (<button type="submit" className="btn btn-primary me-3 mt-3 mb-2">
                                             <i className="bi bi-person-check me-1"></i>Guardar</button>)
                                             :

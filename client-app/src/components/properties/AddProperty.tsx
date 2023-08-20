@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import AddAttributes from "../attributes/AddAttributes";
 import "./AddProperty.css"
 
@@ -13,8 +13,6 @@ const AddProperty = ({ usuarioInfo }: {
 }) => {
 
     let propertyID: number = 0;
-
-    const formData = new FormData();
     const navigate = useNavigate();
 
     const [images, setImages] = useState([] as any[]);
@@ -144,7 +142,9 @@ const AddProperty = ({ usuarioInfo }: {
         
 
         //subir imagenes a la base de datos
-            images.forEach(async (img) => {
+            const uploadPromises = images.map(async (img) => {
+                const formData = new FormData();
+
                 formData.append("Id", String(0));
                 formData.append("propertyId", String(propertyID)); //String(propertyID)
                 formData.append("image", img, img.name);
@@ -159,18 +159,16 @@ const AddProperty = ({ usuarioInfo }: {
                         response.text().then(text => { throw new Error(text); });
                     }
                 });
-
-                formData.delete("Id")
-                formData.delete("propertyId")
-                formData.delete("image")
-                formData.delete("uploadAt")
             
             });
+
+            await Promise.all(uploadPromises);
 
             setOk(true)
 
             setTimeout(() => {
                 setOk(false)
+                redirect('http://localhost:3000/properties/myProperties')
             }, 3000)
 
             setPreviewImages([])
@@ -270,7 +268,7 @@ const AddProperty = ({ usuarioInfo }: {
                         
                         {fail ?
                         <div className="alert alert-danger">
-                           Algo salio mal en lo que publicamos tu propiedad, por favor trata nuevamente en unos instantes.
+                           Algo salio mal en lo que publicabamos tu propiedad, por favor trata nuevamente en unos instantes.
                         </div> : null}
 
                         {ok ?
